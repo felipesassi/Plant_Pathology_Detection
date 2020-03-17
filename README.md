@@ -1,1 +1,1 @@
-# Plant_Pathology_Detection
+# Plant Pathology Detection
