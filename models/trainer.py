@@ -25,7 +25,7 @@ class Trainer():
                 x, y = x.to(self.device), y.to(self.device)
                 self.optimizer.zero_grad()
                 y_out = self.model(x)
-                loss_value = self.loss(y_out, y)
+                loss_value = self.loss(y_out, y.view(-1))
                 loss_value.backward()
                 self.optimizer.step()
                 total_loss = total_loss + loss_value.item()
@@ -51,7 +51,7 @@ class Trainer():
                 for i, (x, y) in enumerate(self.validation_data):
                     x, y = x.to(self.device), y.to(self.device)
                     y_out = self.model(x)
-                    loss_value = self.loss(y_out, y)
+                    loss_value = self.loss(y_out, y.view(-1))
                     total_loss = total_loss + loss_value.item()
                     if y_true == None:
                         y_true = y
