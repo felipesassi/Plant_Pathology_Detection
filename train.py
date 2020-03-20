@@ -48,11 +48,11 @@ if __name__ == "__main__":
     EF_Net = TL_EfficientNet(config["network_parameters"], True).to(device)
     Optimizer = optim.Adam(EF_Net.parameters(), lr = config["train_parameters"]["learning_rate"])
     Loss = nn.CrossEntropyLoss()
-    Train = Trainer(model = EF_Net,
+    Control = Controller(model = EF_Net,
                     optimizer = Optimizer,
                     loss = Loss,
                     train_data = train_loader,
                     val_data = val_loader,
                     epochs = config["train_parameters"]["epochs"],
                     device = device)
-    Train.train()
+    Control.train()

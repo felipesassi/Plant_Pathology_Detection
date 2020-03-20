@@ -26,9 +26,9 @@ if __name__ == "__main__":
     EF_Net = TL_EfficientNet(config["network_parameters"], True).to(device)
     Optimizer = optim.Adam(EF_Net.parameters(), lr = config["train_parameters"]["learning_rate"])
     Loss = nn.CrossEntropyLoss()
-    Train = Trainer(model = EF_Net, device = device)
-    Train.load()
-    y = Train.evaluate()
+    Control = Controller(model = EF_Net, device = device)
+    Control.load()
+    y = Control.evaluate()
     df["healthy"] = y.cpu().numpy()[:, 0]
     df["multiple_diseases"] = y.cpu().numpy()[:, 1]
     df["rust"] = y.cpu().numpy()[:, 2]
