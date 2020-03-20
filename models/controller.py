@@ -1,14 +1,15 @@
 import torch
 from utils.utils import show_training_progress
 
-class Trainer():
-    def __init__(self, model, optimizer=None, loss=None, metric=None, train_data=None, validation_data=None, epochs=None, device=None, lr_scheduler=None):
+class Controller():
+    def __init__(self, model, optimizer=None, loss=None, metric=None, train_data=None, validation_data=None, test_data=None, epochs=None, device=None, lr_scheduler=None):
         self.model = model
         self.optimizer = optimizer 
         self.loss = loss
         self.metric = metric
         self.train_data = train_data
         self.validation_data = validation_data
+        self.test_data = test_data
         self.lr_scheduler = lr_scheduler
         self.epochs = epochs
         self.device = device
@@ -65,6 +66,19 @@ class Trainer():
                     auc_value = self.metric(y_true, y_pred)
                     show_training_progress(auc_value, i, len(self.validation_data), False)
             print("")
+
+        def evaluate(self):
+            y_out = None
+            self.model.eval()
+            with torch.no_grad():
+                for x in self.test_data:
+                    x = x.to(self.device)
+                    y = self.model(x)
+                    if y_out == None:
+                        y_out = y
+                    else:
+                        y_out = torch.cat([y_out, y], dim = 0)
+            return y_out.cpu().numpy()
 
         def save(self, train_mode=False):
             torch.save(self.model.state_dict(), "model.pth")

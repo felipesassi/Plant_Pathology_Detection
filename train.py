@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 from datasets.datasets import generate_train_validation_dataloader
 from models.models import TL_EfficientNet
-from models.trainer import Trainer
+from models.controller import Controller
 from utils.utils import get_device, read_parameters, separate_train_val
 import albumentations as A
 from albumentations import pytorch
